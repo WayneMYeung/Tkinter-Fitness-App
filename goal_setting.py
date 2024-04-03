@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from food_input import Food_input
 
  
 class GoalSettingApp(tk.Tk):
@@ -26,114 +27,6 @@ class GoalSettingApp(tk.Tk):
             "Modify Diet Menu": tk.BooleanVar()
         }
 
-        self.protein_list = ["chicken breast", 
-                             "chicken thigh", 
-                             "beef", 
-                             "steak",
-                             "pork", 
-                             "pork belly", 
-                             "fish", 
-                             "eggs", 
-                             "tofu", 
-                             "milk", 
-                             "soy milk", 
-                             "yogurt", 
-                             "nut and seeds", 
-                             "Whey protein powder", 
-                             "cheese" ]
-        self.veggtable_list = [ 
-            "Spinach",
-            "Broccoli",
-            "Carrots",
-            "Tomatoes",
-            "Bell peppers",
-            "Cucumbers",
-            "Lettuce",
-            "Onions",
-            "Garlic",
-            "Potatoes",
-            "Sweet potatoes",
-            "Zucchini",
-            "Eggplant",
-            "Mushrooms",
-            "Celery",
-            "Cabbage",
-            "Radishes",
-            "Beets",
-            "Corn",
-            "Green peas",
-            "Green beans",
-            "Brussels sprouts",
-            "Asparagus",
-            "Artichokes",
-            "Cauliflower",
-            "Kale",
-            "Chard",
-            "Pumpkin",
-            "Squash",
-            "Okra",
-            "Turnips",
-            "Rutabagas",
-            "Fennel",
-            "Bok choy",
-            "Leeks",
-            "Scallions",
-            "Watercress",
-            "Soybeans",
-            "Snap peas",
-            "Bean sprouts",
-            "Jicama",
-            "Kohlrabi",
-            "Yuca",
-            "Parsnips",
-            "Turnip greens",
-            "Collard greens",
-            "Mustard greens",
-            "Swiss chard",
-            "Radish greens",
-            "Endive",
-            "Arugula",
-            "Dandelion greens",
-            "Chicory",
-            "Broccoli rabe",
-            "Sprouts",
-            "Lotus root",
-            "Taro",
-            "Cassava",
-            "Chayote",
-            "Bamboo shoots",
-            "Hearts of palm",
-            "Bitter melon",
-            "Winter melon",
-            "Daikon",
-            "Burdock root",
-            "Jerusalem artichoke",
-            "Fiddlehead ferns",
-            "Samphire",
-            "Lotus root",
-            "Water chestnuts",
-            "Rhubarb",
-            "Tamarind",
-            "Plantains",
-            "Yams",
-            "Cassava",
-            "Yucca",
-            "Arrowroot",
-            "Chicory root",
-            "Ginger",
-            "Turmeric",
-            "Horseradish",
-            "Wasabi",
-            "Salsify",
-            "Skirret",
-            "Yacon",
-            "Chinese artichoke",
-            "Crosne",
-            "Oca",
-            "Maca",
-            "Chicory root",
-            "Sunchoke"
-                    ]
         self.main_list = []
         
         self.inputs = {} # Dictionary to store the inputs from user. 
@@ -178,10 +71,10 @@ class GoalSettingApp(tk.Tk):
             self.hide_next_button()
         elif self.page == 6:
             self.create_page6()
-            self.hide_submit_button()
-            self.show_next_button()
+            self.hide_next_button()
             self.show_back_button()
-        
+            self.show_create_button()
+
         self.update_navigation_buttons()
 
 
@@ -308,19 +201,6 @@ class GoalSettingApp(tk.Tk):
         paragraph_text = "Remember that this estimate is based on your body weight, height, age, gender, and your average level of activity. You can use this information to help you figure out how many calories you should be consuming to maintain your weight."
         paragraph_label = ttk.Label(self.frames[6], text=paragraph_text, font=("Arial", 14), wraplength=500, justify="left")
         paragraph_label.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
-    
-    def create_page7(self):
-        self.frames[7] = ttk.Frame(self)
-        self.frames[7].grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-
-        goal_label = ttk.Label(self.frames[7], text="What is your breakfast intake", font=("Arial", 18))
-        goal_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
-
-        
-        breakfast_protein = ttk.Combobox(self.frames[7], values=["Feet/Inches", "Centimeters"],
-                                         textvariable=self.height_unit, state="readonly")
-
-
 
 
     def next_page(self):
@@ -403,6 +283,13 @@ class GoalSettingApp(tk.Tk):
     def show_submit_button(self):
         self.submit_button = ttk.Button(self.navigation_frame, text="Submit", command=self.get_inputs)
         self.submit_button.grid(row=1, column=5, padx=10, pady=10, sticky="nsew")
+
+    def show_create_button(self):
+        self.submit_button = ttk.Button(self.navigation_frame, text="Create Food Logs", command=self.open_food_logs)
+        self.submit_button.grid(row=1, column=6, padx=10, pady=10, sticky="nsew")
+    
+    def open_food_logs(self):
+        food_logs = Food_input()
 
     def get_inputs(self):
         self.next_page()

@@ -7,7 +7,7 @@ class Food_input(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Your Food Logs")
-        self.geometry("560x320")
+        self.geometry("560x330")
         self.page = 1  # Current page
         self.breakfast_protein_food_var = tk.StringVar()
         self.breakfast_vegetable_var = tk.StringVar()
@@ -27,6 +27,7 @@ class Food_input(tk.Tk):
         self.dinner_protein_amount = tk.StringVar()
         self.dinner_vegetable_amount = tk.StringVar()
         self.dinner_main_amount = tk.StringVar()
+        self.inputs = {}
         self.foods = {
             "protein_list": 
             ["N/A",
@@ -185,6 +186,11 @@ class Food_input(tk.Tk):
                 self.create_page3()
                 self.hide_next_button()
                 self.show_submit_button()
+                self.show_back_button()
+            elif self.page == 4:
+                self.create_page4()
+                self.hide_next_button()
+                self.hide_submit_button()
                 self.show_back_button()
             
 
@@ -346,6 +352,17 @@ class Food_input(tk.Tk):
         vegetable_combo.current(0)
         main_combo.current(0)
 
+    
+    def create_page4(self):
+        self.frames[4] = ttk.Frame(self)
+        self.frames[4].grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        intake_label = ttk.Label(self.frames[4], text="Your Today calorie intake:", font=("Arial", 18))
+        intake_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+        result_intake = self.calories_intake()
+        result_intake = ttk.Label(self.frames[4], text=f"You consumed {result_intake} calories today.", font=("Arial", 20))
+        result_intake.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+
 
     def validate_input(self, value, field):
         if value.isdigit() or value == "":
@@ -394,14 +411,38 @@ class Food_input(tk.Tk):
             if not self.dinner_protein_amount.get() or not self.dinner_vegetable_amount.get() or not self.dinner_main_amount.get():
                 messagebox.showwarning("Some food categories missing", "Please make sure to fill all the amount.")
                 return
-        if self.page < 3:
-            self.page += 1
-            self.create_widgets()
+        self.page += 1
+        self.create_widgets()
 
     def prev_page(self):
         if self.page > 1:
             self.page -= 1
             self.create_widgets()
+    
+    def calories_intake(self):
+        # Calories calculation formula here
+        pass
+
+    def save_data(self):
+        self.inputs["breakfast_protein"] = self.breakfast_protein_food_var.get()
+        self.inputs["breakfast_vegetable"] = self.breakfast_vegetable_var.get()
+        self.inputs["breakfast_main"] = self.breakfast_main_var.get()
+        self.inputs["breakfast_protein_amount"] = int(self.breakfast_protein_amount.get())
+        self.inputs["breakfast_vegetable_amount"] = int(self.breakfast_vegetable_amount.get())
+        self.inputs["breakfast_main_amount"] = int(self.breakfast_main_amount.get())
+        self.inputs["lunch_protein_food"] = self.lunch_protein_food_var.get()
+        self.inputs["lunch_vegetable"] = self.lunch_vegetable_var.get()
+        self.inputs["lunch_main_var"] = self.lunch_main_var.get()
+        self.inputs["lunch_protein_amount"] = int(self.lunch_protein_amount.get())
+        self.inputs["lunch_vegetable_amount"] = int(self.lunch_vegetable_amount.get())
+        self.inputs["lunch_main_amount"] = int(self.lunch_main_amount.get())
+        self.inputs["dinner_protein_food"] = self.dinner_protein_food_var.get()
+        self.inputs["dinner_vegetable"] = self.dinner_vegetable_var.get()
+        self.inputs["dinner_main_var"] = self.dinner_main_var.get()
+        self.inputs["dinner_protein_amount"] = int(self.dinner_protein_amount.get())
+        self.inputs["dinner_vegetable_amount"] = int(self.dinner_vegetable_amount.get())
+        self.inputs["dinner_main_amount"] = int(self.dinner_main_amount.get())
+
 
 if __name__ == "__main__":
     app = Food_input()
